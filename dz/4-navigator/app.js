@@ -1,8 +1,11 @@
 let positionLat;
-let positionLong;
+let positionLon;
 
-let deltaLat = destinationLat - positionLat;
-let deltaLong = destinationLon - positionLong;
+let addressLat;
+let addressLon;
+
+let deltaLat = addressLat - positionLat;
+let deltaLong = addressLon - positionLon;
 
 let distance = Math.sqrt(deltaLat ** 2 + deltaLong ** 2);
 
