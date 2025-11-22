@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid;
+        border-radius: 10px;
+      }
+      .calculator {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      h2 {
+        text-align: center;
+      }
+      input[type='number'] {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid;
+        border-radius: 10px;
+      }
+      .buttons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      button {
+        padding: 10px;
+        font-size: 16px;
+        background-color: cornflowerblue;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: rgb(93, 128, 191);
+      }
+      #result {
+        padding: 15px;
+        font-size: 18px;
+        text-align: center;
+        border: 1px solid;
+        border-radius: 10px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calculator">
+      <h2>Калькулятор</h2>
+
+      <input type="number" id="num1" placeholder="Первое число" required />
+      <input type="number" id="num2" placeholder="Второе число" required />
+
+      <div class="buttons">
+        <button onclick="calculate('add')">Сложение (+)</button>
+        <button onclick="calculate('subtract')">Вычитание (-)</button>
+        <button onclick="calculate('multiply')">Умножение (*)</button>
+        <button onclick="calculate('divide')">Деление (÷)</button>
+      </div>
+
+      <div id="result">Результат: -</div>
+    </div>
+    <script>
+      function calculate(operation) {
+        const num1Input = document.getElementById('num1').value;
+        const num2Input = document.getElementById('num2').value;
+        const resultElement = document.getElementById('result');
+        if (num1Input === '' || num2Input === '') {
+          resultElement.textContent = 'Ошибка: заполните оба поля';
+          return;
+        }
+        const num1 = Number(num1Input);
+        const num2 = Number(num2Input);
+
+        let result;
+
+        switch (operation) {
+          case 'add':
+            result = num1 + num2;
+            break;
+          case 'subtract':
+            result = num1 - num2;
+            break;
+          case 'multiply':
+            result = num1 * num2;
+            break;
+          case 'divide':
+            if (num2 === 0) {
+              resultElement.textContent = 'Ошибка: деление на ноль';
+              return;
+            }
+            result = num1 / num2;
+            break;
+        }
+
+        document.getElementById('num1').value = '';
+        document.getElementById('num2').value = '';
+
+        resultElement.textContent = `Результат: ${result}`;
+      }
+    </script>
+  </body>
+</html>
