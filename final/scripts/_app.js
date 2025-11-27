@@ -6,8 +6,12 @@ const page = {
   menu: document.querySelector('.menu__list'),
   header: {
     h1: document.querySelector('.h1'),
-    progressPercent: document.querySelector('.progess__percent'),
+    progressPercent: document.querySelector('.progress__percent'),
     progressCoverBar: document.querySelector('.progress__cover-bar'),
+  },
+  content: {
+    days: document.getElementById('days'),
+    nextDay: document.querySelector('.habbit__day'),
   },
 };
 
@@ -45,10 +49,27 @@ function renderHead(activeHabbit) {
   page.header.progressCoverBar.setAttribute('style', `width: ${progress}%`);
 }
 
+function renderMain(activeHabbit) {
+  page.content.days.innerHTML = '';
+
+  activeHabbit.days.forEach((day, index) => {
+    const element = document.createElement('div');
+    element.classList.add('habbit');
+    element.innerHTML = `<div class="habbit__day">День ${index + 1}</div>
+              <div class="habbit__comment">${day.comment}</div>
+              <button class="habbit__delete">
+                <img src="./images/delete.svg" alt="Удалить день 1" />
+              </button>`;
+    page.content.days.appendChild(element);
+  });
+  page.content.nextDay.innerText = `День ${activeHabbit.days.length + 1}`;
+}
+
 function render(activeHabbitsId) {
   const activeHabbit = habbits.find((habbit) => habbit.id === activeHabbitsId);
   renderMenu(activeHabbit);
   renderHead(activeHabbit);
+  renderMain(activeHabbit);
 }
 
 function initApp() {
