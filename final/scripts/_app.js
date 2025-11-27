@@ -1,6 +1,7 @@
 const HABBIT_KEY = 'HABBIT_KEY';
 
 let habbits = [];
+let globalActiveHabbitId;
 
 const page = {
   menu: document.querySelector('.menu__list'),
@@ -19,6 +20,10 @@ function loadData() {
   const habbitString = localStorage.getItem(HABBIT_KEY);
   const habbitArray = JSON.parse(habbitString);
   habbits = habbitArray;
+}
+
+function saveData() {
+  localStorage.getItem(HABBIT_KEY, JSON.stringify(habbits));
 }
 
 function renderMenu(activeHabbit) {
@@ -57,8 +62,10 @@ function renderMain(activeHabbit) {
     element.classList.add('habbit');
     element.innerHTML = `<div class="habbit__day">День ${index + 1}</div>
               <div class="habbit__comment">${day.comment}</div>
-              <button class="habbit__delete">
-                <img src="./images/delete.svg" alt="Удалить день 1" />
+              <button class="habbit__delete" onclick="deleteDay(${index})">
+                <img src="./images/delete.svg" alt="Удалить день ${
+                  index + 1
+                }" />
               </button>`;
     page.content.days.appendChild(element);
   });
@@ -66,10 +73,44 @@ function renderMain(activeHabbit) {
 }
 
 function render(activeHabbitsId) {
+  globalActiveHabbitId = activeHabbitsId;
   const activeHabbit = habbits.find((habbit) => habbit.id === activeHabbitsId);
   renderMenu(activeHabbit);
   renderHead(activeHabbit);
   renderMain(activeHabbit);
+}
+
+function addDay(event) {
+  event.preventDefault();
+  const form = event.target;
+  const data = new FormData(form);
+  const comment = data.get('comment');
+  form['comment'].classList.remove('error');
+  if (!comment) {
+    form['comment'].classList.add('error');
+    return;
+  }
+  habbits = habbits.map((habbit) => {
+    return {
+      ...habbit,
+      days: habbit.days.concat({ comment }),
+    };
+  });
+  form['comment'].value = '';
+  render(globalActiveHabbitId);
+  saveData();
+}
+
+function deleteDay(index) {
+  habbits = habbits.map((habbit) => {
+    habbit.days.splice(index, 1);
+    return {
+      ...habbit,
+      days: habbit.days,
+    };
+  });
+  render(globalActiveHabbitId);
+  saveData();
 }
 
 function initApp() {
