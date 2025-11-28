@@ -14,6 +14,10 @@ const page = {
     days: document.getElementById('days'),
     nextDay: document.querySelector('.habbit__day'),
   },
+  popup: {
+    index: document.getElementById('add_habbit_popup'),
+    popupForm: document.querySelector('.popup__form'),
+  },
 };
 
 function loadData() {
@@ -99,6 +103,12 @@ function addDay(event) {
   form['comment'].value = '';
   render(globalActiveHabbitId);
   saveData();
+}
+
+function togglePopup() {
+  page.popup.index.classList.toggle('cover_hidden');
+  page.popup.popupForm.querySelector('input[name="name"]').value = '';
+  page.popup.popupForm.querySelector('input[name="target"]').value = '';
 }
 
 function deleteDay(index) {
