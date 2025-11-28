@@ -20,6 +20,7 @@ const page = {
   popup: {
     index: document.getElementById('add_habbit_popup'),
     popupForm: document.querySelector('.popup__form'),
+    iconField: document.querySelector('.popup__form input[name="icon"]'),
   },
 };
 
@@ -142,12 +143,21 @@ function deleteDay(index) {
       return {
         ...habbit,
         days: habbit.days,
+        a,
       };
     }
     return habbit;
   });
   rerender(globalActiveHabbitId);
   saveData();
+}
+
+/* working with habbits */
+function setIcon(context, icon) {
+  page.popup.iconField.value = icon;
+  const activeIcon = document.querySelector('.icon.icon_active');
+  activeIcon.classList.remove('icon_active');
+  context.classList.add('icon_active');
 }
 
 /* init */
